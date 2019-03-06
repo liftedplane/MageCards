@@ -28,33 +28,21 @@ public class MoveAndAttack : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D trigCol)
     {
-       if (trigCol.gameObject.tag == "Tower")
-	   {
-		  isColliding = true;
-		  movementSpeed = stopped;
-		  if (Time.time > nextAttack)
-		  {
-			 nextAttack = Time.time + attackSpeed;
-			 Debug.Log("Time Set attack");
-			 trigCol.gameObject.GetComponent<Health>().doDamage(attackStr);
-		  }
-	   }
-	   if (trigCol.gameObject.tag == "EnemyMob")
-	   {
-		  isColliding = true;
-		  movementSpeed = Vector2.zero;
-		  if (Time.time > nextAttack)
-		  {
-			 nextAttack = Time.time + attackSpeed;
-			 trigCol.gameObject.GetComponent<Health>().doDamage(attackStr);
-		  }
-	   }
+        if ((this.gameObject.tag == "Monster" && (trigCol.gameObject.tag == "Tower" || trigCol.gameObject.tag == "EnemyMob"))
+             || (this.gameObject.tag == "EnemyMob" && (trigCol.gameObject.tag == "Player Tower" || trigCol.gameObject.tag == "Wall" || trigCol.gameObject.tag == "Monster")))
+        {
+            isColliding = true;
+            movementSpeed = stopped;
+            if (Time.time > nextAttack)
+            {
+                nextAttack = Time.time + attackSpeed;
+                Debug.Log("Time Set attack");
+                trigCol.gameObject.GetComponent<Health>().doDamage(attackStr);
+            }
+        }
+        else
+            isColliding = false;
 
-	   //if (trigCol.gameObject.GetComponent<Health>().curHP <= 0)
-	   //{
-		  //Debug.Log("enemy is dead");
-		  //isColliding = false;
-	   //}
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

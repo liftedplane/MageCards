@@ -11,7 +11,7 @@ public class Deck : MonoBehaviour {
     private float randSet;
 	// Use this for initialization
 	void Start () {
-        topCard = null;
+        setRandTopCard();
 	}
 	
 	// Update is called once per frame

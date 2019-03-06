@@ -6069,7 +6069,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c725b6dce966f8468cff8421854e570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monPrefab: {fileID: 0}
 --- !u!114 &1745491034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6101,10 +6100,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   cardPos:
   - {fileID: 2122877379}
   - {fileID: 940961644}
@@ -6116,7 +6111,7 @@ MonoBehaviour:
   - {fileID: 1908976689}
   - {fileID: 602489935}
   - {fileID: 2042991207}
-  replaceCard: 0
+  Initialize: 0
   spawner: {fileID: 1051861930}
 --- !u!114 &1745491036
 MonoBehaviour:

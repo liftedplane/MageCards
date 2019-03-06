@@ -4,57 +4,55 @@ using UnityEngine;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    public GameObject monPrefab;
+    private Hand playerHand;
     public static GameObject myCurrentObject = null;
     public static GameObject currCard;
+    //Raycast var
     private Vector3 mousePos;
     private Vector2 mouseLocForRay;
     private RaycastHit2D HitOBject;
-    private GameObject card;
+    private LayerMask layerMask;
+
     private void Start()
     {
-
+        playerHand = this.GetComponent<Hand>();
+        layerMask = LayerMask.GetMask("Cards");
     }
-    private void FixedUpdate()
+
+    private void LateUpdate()
     {
         //prep for Deck/Hand card destruction
         if (myCurrentObject == null && currCard != null)
         {
+            playerHand.hand.RemoveAt(playerHand.hand.IndexOf(currCard));
             Destroy(currCard);
+            //move cards
+            for (int i = 0; i <= 9; i++)
+            {
+                playerHand.hand[i].transform.position = (playerHand.cardPos[i].position);
+            }
         }
     }
+
     private void Update()
     {
-        //card.transform.position = mousePos;
+        //track mouse position
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = -0.2f;
         if (Input.GetMouseButtonDown(0))
         {
+            //Raycast
             mouseLocForRay = new Vector2(mousePos.x, mousePos.y);
-            HitOBject = Physics2D.Raycast(mouseLocForRay, Vector2.zero);
-            if (HitOBject.collider.tag == "Monster Card" || HitOBject.collider.tag == "Spell Card")
+            HitOBject = Physics2D.Raycast(mouseLocForRay, Vector2.zero, 1.0f, layerMask);
+            if (HitOBject.collider == true)
             {
-                monPrefab = HitOBject.collider.GetComponent<SummonInfo>().Prefab.gameObject;
                 myCurrentObject = HitOBject.collider.GetComponent<SummonInfo>().Prefab.gameObject; 
                 currCard = HitOBject.collider.gameObject;
-                card = HitOBject.collider.gameObject;
-                //myCurrentObject = Instantiate(monPrefab, mousePos, Quaternion.identity);
             }
-
-            /*
-            }
-            if (Input.GetMouseButton(0) && myCurrentObject)
-            {
-               myCurrentObject.transform.position = mousePos;
-            }
-            if (Input.GetMouseButtonUp(0) && myCurrentObject)
-            {
-               myCurrentObject = null;
-            }
-            */
         }
     }
-  public static void Discard()
+
+    public static void Discard()
     {
         myCurrentObject = null;
         Destroy(currCard);
